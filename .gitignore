@@ -1,0 +1,13 @@
+build/
+.DS_Store
+out/
+.idea/
+databaseinfo.json
+.gradle/
+gradle/
+*.ipr
+*.iws
+*.iml
+gradlew
+gradlew.bat
+
