@@ -8,8 +8,7 @@ import spark.Spark.*;
 import com.mongodb.client.MongoDatabase
 import org.bson.Document
 import com.mongodb.DBObject
-
-
+import com.mongodb.client.model.Filters.eq
 
 
 /**
@@ -36,7 +35,15 @@ fun main(args: Array<String>) {
         val stringBuilder: StringBuilder = StringBuilder(req.body())
         val json: JsonObject = parser.parse(stringBuilder) as JsonObject
         val jsonAsMap = json.toMap();
-        database.getCollection("test").insertOne(Document(jsonAsMap));
+        //have a users collection
+        val userid : String? = json.string("id")
+        ///query the database
+        val x =database.getCollection("users").find(eq("userid",userid)).count()
+        if(x >0){
+            //if the user id exists insert into the collection for the data
+            database.getCollection("data").insertOne(Document(jsonAsMap))
+        }
+
 
                 res.status(200)
         "done"
