@@ -1,6 +1,7 @@
 
 import com.beust.klaxon.JsonObject
 import com.beust.klaxon.*;
+import com.mongodb.BasicDBObject
 import com.mongodb.MongoClient
 import com.mongodb.MongoClientURI
 
@@ -41,7 +42,9 @@ fun main(args: Array<String>) {
         val x =database.getCollection("users").find(eq("userid",userid)).count()
         if(x >0){
             //if the user id exists insert into the collection for the data
-            database.getCollection("data").insertOne(Document(jsonAsMap))
+            //first update the data
+            val ob:BasicDBObject = BasicDBObject().append("userid",userid)
+            database.getCollection("data").updateOne(ob,Document(jsonAsMap))
         }
 
 
