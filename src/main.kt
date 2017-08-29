@@ -53,5 +53,23 @@ fun main(args: Array<String>) {
             //save the body of the request\
 
     }
+
+    post("/getdata") { req, res ->
+        print(req.body())
+        //store the body in the database
+        //connect to mongo atlas
+        val stringBuilder: StringBuilder = StringBuilder(req.body())
+        val json: JsonObject = parser.parse(stringBuilder) as JsonObject
+        val jsonAsMap = json.toMap();
+        //have a users collection
+        val userid : String? = json.string("id")
+        ///query the database
+        val x  =database.getCollection("data").find(eq("userid",userid)).first()
+
+        res.status(200)
+        x.toJson().toString()
+        //save the body of the request\
+
+    }
 }
 
